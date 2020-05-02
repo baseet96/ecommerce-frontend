@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
-import { HttpClientModule } from "@angular/common/http";
+import { NgModule, Injectable } from '@angular/core';
+import { HttpClientModule, HttpInterceptor, HttpRequest, HttpHandler, HTTP_INTERCEPTORS } from "@angular/common/http";
 import { ReactiveFormsModule } from "@angular/forms";
 
 import { AppRoutingModule } from './app-routing.module';
@@ -15,9 +15,22 @@ import { ShopperHeaderComponent } from './shopper-header/shopper-header.componen
 import { ShopperHomeComponent } from './shopper-home/shopper-home.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
-import {ProductApiService } from './shared/product-api/product-api.service'
+import { ProductApiService } from './shared/product-api/product-api.service'
 import { AuthApiService } from './shared/auth-api/auth-api.service'
 import { UserInfoService } from './shared/user-info/user-info.service';
+import { AppService } from './app.service';
+
+
+@Injectable()
+export class XhrInterceptor implements HttpInterceptor {
+
+  intercept(req: HttpRequest<any>, next: HttpHandler) {
+    const xhr = req.clone({
+      headers: req.headers.set('X-Requested-With', 'XMLHttpRequest')
+    });
+    return next.handle(xhr);
+  }
+}
 
 @NgModule({
   declarations: [
@@ -38,7 +51,8 @@ import { UserInfoService } from './shared/user-info/user-info.service';
     HttpClientModule,
     ReactiveFormsModule,
   ],
-  providers: [ProductApiService, AuthApiService, UserInfoService],
+  providers: [AppService, ProductApiService, AuthApiService, UserInfoService, { provide: HTTP_INTERCEPTORS, useClass: XhrInterceptor, multi: true }],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
+

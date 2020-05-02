@@ -24,5 +24,5 @@ export class AppService {
           }
           return callback && callback();
       });
-  }
+    }
 }

@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
-import { ProductApiService } from '../shared/product-api/product-api.service';
+import { Component, OnInit } from "@angular/core";
+import { ProductApiService } from "../shared/product-api/product-api.service";
 import { UserInfoService } from "../shared/user-info/user-info.service";
-import { Subscription } from 'rxjs';
+import { Subscription } from "rxjs";
 
 @Component({
   selector: "app-shopping-cart",
@@ -9,9 +9,10 @@ import { Subscription } from 'rxjs';
   styleUrls: ["./shopping-cart.component.css"],
 })
 export class ShoppingCartComponent implements OnInit {
+  cartSubscription: Subscription;
   userSubscription: Subscription;
   userData: any;
-  products: any;
+  cart: any;
 
   constructor(
     private productApiService: ProductApiService,
@@ -22,22 +23,22 @@ export class ShoppingCartComponent implements OnInit {
     this.userSubscription = this.userInfoService.userData$.subscribe(
       (userData) => {
         this.userData = userData;
+        this.cartSubscription = this.productApiService
+          .getCart(userData.cartId)
+          .subscribe(
+            (cart) => {
+              console.log(cart);
+              this.cart = cart;
+            },
+            (error) => console.error(error)
+          );
       }
     );
   }
 
   ngOnDestroy() {
     this.userData.unsubscribe();
-  }
-
-  getCart(): void {
-    this.productApiService.getAllProducts().subscribe(
-      (data: any) => {
-        console.log(data);
-        this.products = data;
-      },
-      (error) => console.error(error)
-    );
+    this.cartSubscription.unsubscribe();
   }
 
   removeProduct(): void {}

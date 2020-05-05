@@ -19,6 +19,7 @@ import { ProductApiService } from './shared/product-api/product-api.service'
 import { AuthApiService } from './shared/auth-api/auth-api.service'
 import { UserInfoService } from './shared/user-info/user-info.service';
 import { AppService } from './app.service';
+import { ShoppingCartComponent } from './shopping-cart/shopping-cart.component';
 
 
 @Injectable()
@@ -43,6 +44,7 @@ export class XhrInterceptor implements HttpInterceptor {
     RegistrationComponent,
     ShopperHeaderComponent,
     ShopperHomeComponent,
+    ShoppingCartComponent,
   ],
   imports: [
     BrowserModule,

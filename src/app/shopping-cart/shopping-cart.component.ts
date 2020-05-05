@@ -2,11 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { ProductApiService } from '../shared/product-api/product-api.service';
 
 @Component({
-  selector: "app-cart",
-  templateUrl: "./cart.component.html",
-  styleUrls: ["./cart.component.css"],
+  selector: "app-shopping-cart",
+  templateUrl: "./shopping-cart.component.html",
+  styleUrls: ["./shopping-cart.component.css"],
 })
-export class CartComponent implements OnInit {
+export class ShoppingCartComponent implements OnInit {
   products: any;
 
   constructor(private productApiService: ProductApiService) {}
@@ -23,5 +23,9 @@ export class CartComponent implements OnInit {
       },
       (error) => console.error(error)
     );
+  }
+
+  removeProduct(): void {
+    
   }
 }

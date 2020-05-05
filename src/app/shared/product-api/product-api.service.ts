@@ -7,7 +7,8 @@ import { NewProduct, Product } from "../product.model";
   providedIn: "root",
 })
 export class ProductApiService {
-  API_URL = "api/products/";
+  API_URL = "http://127.0.0.1:8080/products/";
+  API_CART_URL = "http://127.0.0.1:8080/cart/";
 
   private apiData = new BehaviorSubject<any>(null);
   public apiData$ = this.apiData.asObservable();
@@ -20,6 +21,12 @@ export class ProductApiService {
 
   addNewProduct(newProduct: NewProduct): Observable<any> {
     return this.http.post<Product>(this.API_URL + "add-product", newProduct);
+  }
+
+  createNewCart(cart: any, productId: any): Observable<any> {
+    return this.http.post<any>(this.API_CART_URL + "create", cart, {
+      params: { productId: productId },
+    });
   }
 
   private handleError(error: HttpErrorResponse) {

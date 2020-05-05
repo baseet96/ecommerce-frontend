@@ -29,6 +29,12 @@ export class ProductApiService {
     });
   }
 
+  addToCart(cartId: any, productId: any, quantity: any): Observable<any> {
+    return this.http.put<any>(this.API_CART_URL + "product", null, {
+      params: { cartId, productId, quantity },
+    });
+  }
+
   private handleError(error: HttpErrorResponse) {
     if (error.error instanceof ErrorEvent) {
       // A client-side or network error occurred. Handle it accordingly.

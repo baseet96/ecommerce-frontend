@@ -36,12 +36,18 @@ export class ProductComponent implements OnInit {
 
   addToCart() {
     let user = { ...this.userData.user };
-    if (!this.userData.hasCart) {
+    if (!this.userData.cartId) {
       this.productApiService
         .createNewCart({ user }, this.product.id)
         .subscribe((result) => {
           console.log(result);
-          this.userInfoService.setData({ ...this.userData, hasCart: true });
+          this.userInfoService.setData({ ...this.userData, cartId: result.id });
+        });
+    } else {
+      this.productApiService
+        .addToCart(this.userData.cartId, this.product.id, 1)
+        .subscribe((result) => {
+          console.log(result);
         });
     }
   }

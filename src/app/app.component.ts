@@ -32,7 +32,7 @@ export class AppComponent implements OnInit {
         kind: "CUSTOMER",
         dob: "1991-01-12T06:45:76",
       },
-      hasCart: true,
+      cartId: 2,
     });
   }
 

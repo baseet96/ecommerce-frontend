@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ProductApiService } from '../shared/product-api/product-api.service';
+import { UserInfoService } from "../shared/user-info/user-info.service";
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: "app-shopping-cart",
@@ -7,15 +9,28 @@ import { ProductApiService } from '../shared/product-api/product-api.service';
   styleUrls: ["./shopping-cart.component.css"],
 })
 export class ShoppingCartComponent implements OnInit {
+  userSubscription: Subscription;
+  userData: any;
   products: any;
 
-  constructor(private productApiService: ProductApiService) {}
+  constructor(
+    private productApiService: ProductApiService,
+    private userInfoService: UserInfoService
+  ) {}
 
   ngOnInit() {
-    this.getProducts();
+    this.userSubscription = this.userInfoService.userData$.subscribe(
+      (userData) => {
+        this.userData = userData;
+      }
+    );
   }
 
-  getProducts(): void {
+  ngOnDestroy() {
+    this.userData.unsubscribe();
+  }
+
+  getCart(): void {
     this.productApiService.getAllProducts().subscribe(
       (data: any) => {
         console.log(data);
@@ -25,7 +40,5 @@ export class ShoppingCartComponent implements OnInit {
     );
   }
 
-  removeProduct(): void {
-    
-  }
+  removeProduct(): void {}
 }

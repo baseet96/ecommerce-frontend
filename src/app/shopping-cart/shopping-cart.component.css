@@ -7,3 +7,9 @@
    color: white;
    text-align: center;
 }
+
+.quantity {
+   max-width: 5%;
+   margin: 0;
+   text-align: center;
+}

@@ -16,17 +16,11 @@ export class ProductApiService {
   public apiData$ = this.apiData.asObservable();
   public allProducts;
 
-
   constructor(private app: AppService, private http: HttpClient) {}
 
   getAllProducts(): Observable<any> {
-    this.http.get(apiAddr + 'auth/token').subscribe(data => {
-      const token = data['token'];
-      this.http.get(apiAddr + 'products/all', {headers : new HttpHeaders().set('X-Auth-Token', token)})
-        .subscribe(response => this.allProducts = response);
-    }, () => {});
-    console.log(this.allProducts);
-    return this.allProducts;
+    return this.http.get(this.API_URL + 'all');
+      
   }
 
   addNewProduct(newProduct: NewProduct): Observable<any> {

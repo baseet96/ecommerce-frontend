@@ -14,7 +14,24 @@
           >
         </div>
         <div class="card-footer bg-transparent text-center">
-          Quantity: <strong>{{ cart.quantity[product.id] | number }}</strong>
+          <strong>
+            Quantity:
+            <button
+              class="quantity ml-3"
+              (click)="removeProduct(product.id, cart.quantity[product.id] - 1)"
+            >
+              -
+            </button>
+            <input
+              class="quantity ml-0"
+              value="{{ cart.quantity[product.id] | number }}"
+              disabled="{{ true }}" /></strong
+          ><button
+            class="quantity ml-0"
+            (click)="removeProduct(product.id, cart.quantity[product.id] + 1)"
+          >
+            +
+          </button>
         </div>
         <div class="card-footer bg-transparent text-center">
           Price: ${{ product.price | number }}
@@ -26,7 +43,11 @@
           Discount: {{ product.discount * 100 | number }}%
         </div>
         <div class="card-footer bg-transparent text-center">
-          <strong> Final Price: ${{ product.finalPrice | number }}</strong>
+          <strong>
+            Final Price: ${{
+              product.finalPrice * cart.quantity[product.id] | number
+            }}</strong
+          >
         </div>
         <div class="card-footer bg-transparent text-center">
           <button
@@ -43,7 +64,8 @@
   <div class="row" *ngIf="cart">
     <div class="col-sm-12 mt-4">
       <div class="card-footer bg-transparent text-center">
-        <strong>Total: ${{ cart.total | number }}</strong><button class="ml-4 btn-primary">Checkout</button>
+        <strong>Total: ${{ cart.total | number }}</strong
+        ><button class="ml-4 btn-primary">Checkout</button>
       </div>
     </div>
   </div>

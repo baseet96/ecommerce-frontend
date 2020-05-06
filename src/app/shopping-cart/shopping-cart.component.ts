@@ -36,15 +36,20 @@ export class ShoppingCartComponent implements OnInit {
   }
 
   ngOnDestroy() {
-    this.userData.unsubscribe();
+    this.userSubscription.unsubscribe();
     this.cartSubscription.unsubscribe();
   }
 
   removeProduct(productId: any, quantity: any): void {
+    const product = this.cart.products.find(
+      (product) => product.id == productId
+    );
+    if (product.quantityInInventory < quantity) {
+      return;
+    }
     this.productApiService
       .addToCart(this.userData.cartId, productId, quantity)
       .subscribe((cart) => {
-        console.log(cart);
         this.cart = cart;
       });
   }

@@ -1,5 +1,7 @@
-import { Component, OnInit } from '@angular/core';
-import { ProductApiService } from '../shared/product-api/product-api.service';
+import { Component, OnInit } from "@angular/core";
+import { ProductApiService } from "../shared/product-api/product-api.service";
+import { UserInfoService } from "../shared/user-info/user-info.service";
+import { Subscription } from "rxjs";
 
 @Component({
   selector: "app-shopping-cart",
@@ -7,25 +9,37 @@ import { ProductApiService } from '../shared/product-api/product-api.service';
   styleUrls: ["./shopping-cart.component.css"],
 })
 export class ShoppingCartComponent implements OnInit {
-  products: any;
+  cartSubscription: Subscription;
+  userSubscription: Subscription;
+  userData: any;
+  cart: any;
 
-  constructor(private productApiService: ProductApiService) {}
+  constructor(
+    private productApiService: ProductApiService,
+    private userInfoService: UserInfoService
+  ) {}
 
   ngOnInit() {
-    this.getProducts();
-  }
-
-  getProducts(): void {
-    this.productApiService.getAllProducts().subscribe(
-      (data: any) => {
-        console.log(data);
-        this.products = data;
-      },
-      (error) => console.error(error)
+    this.userSubscription = this.userInfoService.userData$.subscribe(
+      (userData) => {
+        this.userData = userData;
+        this.cartSubscription = this.productApiService
+          .getCart(userData.cartId)
+          .subscribe(
+            (cart) => {
+              console.log(cart);
+              this.cart = cart;
+            },
+            (error) => console.error(error)
+          );
+      }
     );
   }
 
-  removeProduct(): void {
-    
+  ngOnDestroy() {
+    this.userData.unsubscribe();
+    this.cartSubscription.unsubscribe();
   }
+
+  removeProduct(): void {}
 }

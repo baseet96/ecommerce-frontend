@@ -1,33 +1,41 @@
 <app-shopper-header></app-shopper-header>
 <div class="container">
-  <div
-    *ngIf="products"
-    class="row h-100 justify-content-center align-items-center"
-  >
-    <div *ngFor="let product of products">
-      <div class="card border-light mb-3" style="max-width: 18rem;">
+  <div *ngIf="cart" class="row h-100 justify-content-center align-items-center">
+    <div class="col-sm-12 mt-4">
+      <h1>{{ cart.user.name | titlecase }}'s Shopping Cart</h1>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-12 mt-4" *ngFor="let product of cart.products">
+      <div class="card border-light mb-3">
         <div class="card-header">
           <u>{{ product.name }}</u>
         </div>
-        <div class="card-body">
-          <h5 class="card-title">{{ product.description }}</h5>
+        <div class="card-footer bg-transparent text-center">
+          Price: ${{ product.price }}
         </div>
         <div class="card-footer bg-transparent text-center">
-          {{ product.price }}
+          Delivery Charge: ${{ product.deliveryCharges }}
         </div>
         <div class="card-footer bg-transparent text-center">
-
-            <input type="text" placeholder="" formControlName="quantity"/>
-            <button
+          Discount: {{ product.discount * 100 }}%
+        </div>
+        <div class="card-footer bg-transparent text-center">
+          Final Price: ${{ product.finalPrice }}
+        </div>
+        <div class="card-footer bg-transparent text-center">
+          <button
             type="button"
             class="btn btn-primary btn-md"
             (click)="removeProduct()"
           >
             Remove
           </button>
-            
         </div>
       </div>
+    </div>
+    <div class="card-footer bg-transparent text-center">
+      {{ cart.total }}
     </div>
   </div>
 </div>

@@ -33,6 +33,10 @@ export class ProductApiService {
     return this.http.post<Product>(this.API_URL + "add-product", newProduct);
   }
 
+  getCart(id: any): Observable<any> {
+    return this.http.get<any>(this.API_CART_URL, { params: { id } });
+  }
+
   createNewCart(cart: any, productId: any): Observable<any> {
     return this.http.post<any>(this.API_CART_URL + "create", cart, {
       params: { productId: productId },

@@ -27,7 +27,6 @@ export class ShoppingCartComponent implements OnInit {
           .getCart(userData.cartId)
           .subscribe(
             (cart) => {
-              console.log(cart);
               this.cart = cart;
             },
             (error) => console.error(error)
@@ -41,5 +40,12 @@ export class ShoppingCartComponent implements OnInit {
     this.cartSubscription.unsubscribe();
   }
 
-  removeProduct(): void {}
+  removeProduct(productId: any, quantity: any): void {
+    this.productApiService
+      .addToCart(this.userData.cartId, productId, quantity)
+      .subscribe((cart) => {
+        console.log(cart);
+        this.cart = cart;
+      });
+  }
 }

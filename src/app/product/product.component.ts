@@ -1,5 +1,5 @@
 import { Component, OnInit } from "@angular/core";
-import { ActivatedRoute } from "@angular/router";
+import { Router } from "@angular/router";
 import { ProductApiService } from "../shared/product-api/product-api.service";
 import { UserInfoService } from "../shared/user-info/user-info.service";
 import { Subscription } from "rxjs";
@@ -16,7 +16,7 @@ export class ProductComponent implements OnInit {
   product: Product;
   userData: any;
   constructor(
-    private route: ActivatedRoute,
+    private router: Router,
     private productApiService: ProductApiService,
     private userInfoService: UserInfoService
   ) {}
@@ -40,20 +40,18 @@ export class ProductComponent implements OnInit {
       this.productApiService
         .createNewCart({ user }, this.product.id)
         .subscribe((result) => {
-          console.log(result);
           this.userInfoService.setData({ ...this.userData, cartId: result.id });
         });
     } else {
       this.productApiService
         .addToCart(this.userData.cartId, this.product.id, 1)
         .subscribe((result) => {
-          console.log(result);
+          this.router.navigateByUrl('/shopper/cart');
         });
     }
   }
 
   ngOnDestroy() {
     this.dataSubscription.unsubscribe();
-    this.userData.unsubscribe();
   }
 }

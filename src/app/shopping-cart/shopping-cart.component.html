@@ -5,45 +5,46 @@
       <h1>{{ cart.user.name | titlecase }}'s Shopping Cart</h1>
     </div>
   </div>
-  <div class="row">
+  <div class="row" *ngIf="cart">
     <div class="col-sm-12 mt-4" *ngFor="let product of cart.products">
       <div class="card border-light mb-3">
         <div class="card-header">
-          <u>{{ product.name }}</u>
+          <u
+            ><strong>{{ product.name }}</strong></u
+          >
         </div>
         <div class="card-footer bg-transparent text-center">
-          Price: ${{ product.price }}
+          Quantity: <strong>{{ cart.quantity[product.id] | number }}</strong>
         </div>
         <div class="card-footer bg-transparent text-center">
-          Delivery Charge: ${{ product.deliveryCharges }}
+          Price: ${{ product.price | number }}
         </div>
         <div class="card-footer bg-transparent text-center">
-          Discount: {{ product.discount * 100 }}%
+          Delivery Charge: ${{ product.deliveryCharges | number }}
         </div>
         <div class="card-footer bg-transparent text-center">
-          Final Price: ${{ product.finalPrice }}
+          Discount: {{ product.discount * 100 | number }}%
+        </div>
+        <div class="card-footer bg-transparent text-center">
+          <strong> Final Price: ${{ product.finalPrice | number }}</strong>
         </div>
         <div class="card-footer bg-transparent text-center">
           <button
             type="button"
             class="btn btn-primary btn-md"
-            (click)="removeProduct()"
+            (click)="removeProduct(product.id, 0)"
           >
-            Remove
+            Remove from Cart
           </button>
         </div>
       </div>
     </div>
-    <div class="card-footer bg-transparent text-center">
-      {{ cart.total }}
+  </div>
+  <div class="row" *ngIf="cart">
+    <div class="col-sm-12 mt-4">
+      <div class="card-footer bg-transparent text-center">
+        <strong>Total: ${{ cart.total | number }}</strong><button class="ml-4 btn-primary">Checkout</button>
+      </div>
     </div>
   </div>
 </div>
-<!-- <div class ="footer">
-  <p>Total: {{product.total}}</p>
-  <button
-  type="button"
->
-  Buy
-</button>
-</div> -->

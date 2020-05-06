@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { apiAddr } from './config'
 
 @Injectable({
   providedIn: 'root'
@@ -16,7 +17,7 @@ export class AppService {
           authorization : 'Basic ' + btoa(credentials.email + ':' + credentials.password)
       } : {});
 
-      this.http.get('api/user', {headers: headers}).subscribe(response => {
+      this.http.get(apiAddr + 'auth/user', {headers: headers}).subscribe(response => {
           if (response['name']) {
               this.authenticated = true;
           } else {

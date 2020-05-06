@@ -1,22 +1,32 @@
 import { Injectable } from "@angular/core";
 import { BehaviorSubject, Observable, throwError } from "rxjs";
-import { HttpClient, HttpErrorResponse } from "@angular/common/http";
+import { HttpClient, HttpErrorResponse, HttpHeaders } from "@angular/common/http";
 import { NewProduct, Product } from "../product.model";
+import { apiAddr } from '../../config';
+import { AppService } from '../../app.service';
 
 @Injectable({
   providedIn: "root",
 })
 export class ProductApiService {
-  API_URL = "api/products/";
-  API_CART_URL = "api/cart/";
+  API_URL = apiAddr + "products/";
+  API_CART_URL = apiAddr + "cart/";
 
   private apiData = new BehaviorSubject<any>(null);
   public apiData$ = this.apiData.asObservable();
+  public allProducts;
 
-  constructor(private http: HttpClient) {}
+
+  constructor(private app: AppService, private http: HttpClient) {}
 
   getAllProducts(): Observable<any> {
-    return this.http.get<Product[]>(this.API_URL + "all");
+    this.http.get(apiAddr + 'auth/token').subscribe(data => {
+      const token = data['token'];
+      this.http.get(apiAddr + 'products/all', {headers : new HttpHeaders().set('X-Auth-Token', token)})
+        .subscribe(response => this.allProducts = response);
+    }, () => {});
+    console.log(this.allProducts);
+    return this.allProducts;
   }
 
   addNewProduct(newProduct: NewProduct): Observable<any> {

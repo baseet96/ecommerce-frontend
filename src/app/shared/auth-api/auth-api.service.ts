@@ -2,24 +2,24 @@ import { Injectable } from "@angular/core";
 import { BehaviorSubject, Observable, throwError } from "rxjs";
 import { HttpClient, HttpErrorResponse } from "@angular/common/http";
 import { NewProduct, Product } from "../product.model";
+import { apiAddr } from '../../config';
+import { AppService } from '../../app.service';
 
 @Injectable({
   providedIn: "root",
 })
 export class AuthApiService {
-  API_URL = "http://127.0.0.1:8080/";
-
   private apiData = new BehaviorSubject<any>(null);
   public apiData$ = this.apiData.asObservable();
 
-  constructor(private http: HttpClient) {}
+  constructor(private app: AppService, private http: HttpClient) {}
 
   register(user: any): Observable<any> {
-    return this.http.post<any>(this.API_URL + "register-user", user);
+    return this.http.post<any>(apiAddr + "register-user", user);
   }
 
   login(user: any): Observable<any> {
-    return this.http.post<any>(this.API_URL + "login-user", user);
+    return this.http.post<any>(apiAddr + "login-user", user);
   }
 
   private handleError(error: HttpErrorResponse) {

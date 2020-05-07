@@ -1,30 +1,49 @@
 <app-admin-header></app-admin-header>
-<div class="container">
-  <div *ngIf="products" class="row">
-    <div *ngFor="let product of products">
-      <div class="col-sm-4">
-        <div class="panel panel-primary">
-          <div class="panel-heading">{{ product.name }}</div>
-          <div class="panel-body">
-            <p>Price: {{ product.price }}</p>
-          </div>
-          <div class="panel-footer">
-            <button
-              type="button"
-              class="btn btn-primary btn-md"
-              onClick="location.href='shopper/product' "
-            >
-              Edit
-            </button>
-            <button
-              type="button"
-              class="btn btn-primary btn-md"
-              onClick="location.href='#' "
-            >
-              Remove
-            </button>
-          </div>
-        </div>
+<div
+  *ngIf="products"
+  class="row h-100 justify-content-center align-items-center"
+>
+  <div *ngFor="let product of products">
+    <div class="card border-light mb-3" style="max-width: 18rem;">
+      <div class="card-header">
+        <u>{{ product.name }}</u>
+      </div>
+      <div class="card-body">
+        <h5 class="card-title">{{ product.description }}</h5>
+      </div>
+      <div class="card-body">
+        <h6>Price: ${{ product.price | number }}</h6>
+      </div>
+      <div class="card-body">
+        <h6>Discount: {{ product.discount * 100 }}%</h6>
+      </div>
+      <div class="card-body">
+        <h6>Delivery Charge: ${{ product.deliveryCharges | number }}</h6>
+      </div>
+      <div class="card-footer bg-transparent text-center">
+        <h6>
+          Final Price: ${{
+            product.price -
+              product.price * product.discount +
+              product.deliveryCharges | number
+          }}
+        </h6>
+      </div>
+      <div class="panel-footer">
+        <button
+          type="button"
+          class="btn btn-primary btn-md mr-3"
+          onClick="location.href='shopper/product' "
+        >
+          Edit
+        </button>
+        <button
+          type="button"
+          class="btn btn-primary btn-md"
+          onClick="location.href='#' "
+        >
+          Remove
+        </button>
       </div>
     </div>
   </div>

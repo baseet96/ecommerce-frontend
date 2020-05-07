@@ -27,14 +27,15 @@ export class ProductApiService {
   }
 
   addNewProduct(newProduct: NewProduct): Observable<any> {
-    return this.http.post<Product>(
-      this.API_URL + "http://localhost:8080/products/add-product",
-      newProduct
-    );
+    return this.http.post<Product>(this.API_URL + "add-product", newProduct);
   }
 
   editProduct(product: NewProduct, id: any): Observable<any> {
-    return this.http.put("http://localhost:8080/products/put", product, { params: { id } });
+    return this.http.put(this.API_URL + "put", product, { params: { id } });
+  }
+
+  deleteProduct(id: any): Observable<any> {
+    return this.http.delete(this.API_URL + "delete", { params: { id } });
   }
 
   getCart(id: any): Observable<any> {

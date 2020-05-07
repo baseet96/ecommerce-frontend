@@ -26,6 +26,16 @@ export class AdminHomeComponent implements OnInit {
     this.router.navigateByUrl("/admin/edit-product");
   }
 
+  deleteProduct(id: any): void {
+    this.productApiService.deleteProduct(id).subscribe(
+      (response) => {
+        console.log(response);
+        this.getProducts();
+      },
+      (error) => console.error(error)
+    );
+  }
+
   getProducts(): void {
     this.productApiService.getAllProducts().subscribe(
       (data: any) => {

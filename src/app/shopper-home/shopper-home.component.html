@@ -12,8 +12,11 @@
         <div class="card-body">
           <h5 class="card-title">{{ product.description }}</h5>
         </div>
+        <div class="card-body">
+          <h5>Discount: {{ product.discount * 100 }}%</h5>
+        </div>
         <div class="card-footer bg-transparent text-center">
-          {{ product.price }}
+          ${{ product.price - (product.price * product.discount) | number }}
         </div>
         <div class="card-footer bg-transparent text-center">
           <button

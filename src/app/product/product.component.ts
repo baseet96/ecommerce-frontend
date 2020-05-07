@@ -13,7 +13,7 @@ import { Product } from "../shared/product.model";
 export class ProductComponent implements OnInit {
   userSubscription: Subscription;
   dataSubscription: Subscription;
-  product: Product;
+  product: Product = null;
   userData: any;
   constructor(
     private router: Router,
@@ -24,7 +24,9 @@ export class ProductComponent implements OnInit {
   ngOnInit() {
     this.dataSubscription = this.productApiService.apiData$.subscribe(
       (product) => {
-        this.product = product;
+        if (product) {
+          this.product = product;
+        }
       }
     );
     this.userSubscription = this.userInfoService.userData$.subscribe(
@@ -46,7 +48,7 @@ export class ProductComponent implements OnInit {
       this.productApiService
         .addToCart(this.userData.cartId, this.product.id, 1)
         .subscribe((result) => {
-          this.router.navigateByUrl('/shopper/cart');
+          this.router.navigateByUrl("/shopper/cart");
         });
     }
   }

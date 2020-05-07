@@ -1,5 +1,7 @@
-import { Component, OnInit } from '@angular/core';
-import { ProductApiService } from '../shared/product-api/product-api.service';
+import { Component, OnInit } from "@angular/core";
+import { Router } from "@angular/router";
+import { ProductApiService } from "../shared/product-api/product-api.service";
+import { ProductService } from "../shared/product/product.service";
 
 @Component({
   selector: "app-admin-home",
@@ -9,16 +11,24 @@ import { ProductApiService } from '../shared/product-api/product-api.service';
 export class AdminHomeComponent implements OnInit {
   products: any;
 
-  constructor(private productApiService: ProductApiService) {}
+  constructor(
+    private productApiService: ProductApiService,
+    private productService: ProductService,
+    private router: Router
+  ) {}
 
   ngOnInit() {
     this.getProducts();
   }
 
+  editProduct(product: any): void {
+    this.productService.setProduct(product);
+    this.router.navigateByUrl("/admin/edit-product");
+  }
+
   getProducts(): void {
     this.productApiService.getAllProducts().subscribe(
       (data: any) => {
-        console.log(data);
         this.products = data;
       },
       (error) => console.error(error)

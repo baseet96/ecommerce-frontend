@@ -11,6 +11,7 @@ import { ProductComponent } from "./product/product.component";
 
 const routes: Routes = [
   { path: "admin/addProduct", component: AddProductComponent },
+  { path: "admin/edit-product", component: AddProductComponent },
   { path: "admin/home", component: AdminHomeComponent },
   { path: "registration", component: RegistrationComponent },
   { path: "login", component: LoginComponent },

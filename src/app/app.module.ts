@@ -13,14 +13,14 @@ import { ProductComponent } from './product/product.component';
 import { RegistrationComponent } from './registration/registration.component';
 import { ShopperHeaderComponent } from './shopper-header/shopper-header.component';
 import { ShopperHomeComponent } from './shopper-home/shopper-home.component';
+import { ShoppingCartComponent } from "./shopping-cart/shopping-cart.component";
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { ProductApiService } from './shared/product-api/product-api.service'
 import { AuthApiService } from './shared/auth-api/auth-api.service'
 import { UserInfoService } from './shared/user-info/user-info.service';
 import { AppService } from './app.service';
-import { ShoppingCartComponent } from './shopping-cart/shopping-cart.component';
-
+import { ProductService } from './shared/product/product.service';
 
 @Injectable()
 export class XhrInterceptor implements HttpInterceptor {
@@ -53,7 +53,7 @@ export class XhrInterceptor implements HttpInterceptor {
     HttpClientModule,
     ReactiveFormsModule,
   ],
-  providers: [AppService, ProductApiService, AuthApiService, UserInfoService, { provide: HTTP_INTERCEPTORS, useClass: XhrInterceptor, multi: true }],
+  providers: [AppService, ProductApiService, AuthApiService, UserInfoService, ProductService, { provide: HTTP_INTERCEPTORS, useClass: XhrInterceptor, multi: true }],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

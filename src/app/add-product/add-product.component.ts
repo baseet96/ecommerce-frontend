@@ -4,6 +4,7 @@ import { ProductApiService } from "../shared/product-api/product-api.service";
 import { Router, ActivatedRoute, UrlSegment } from "@angular/router";
 import { ProductService } from "../shared/product/product.service";
 import { Subscription } from "rxjs";
+import { Product } from "../shared/product.model";
 
 @Component({
   selector: "app-add-product",
@@ -11,6 +12,7 @@ import { Subscription } from "rxjs";
   styleUrls: ["./add-product.component.css"],
 })
 export class AddProductComponent implements OnInit, OnDestroy {
+  editing: boolean = false;
   productForm = this.formBuilder.group({
     name: "",
     description: "",
@@ -20,7 +22,7 @@ export class AddProductComponent implements OnInit, OnDestroy {
     inventory: "",
   });
   subscription: Subscription;
-  product: any;
+  product: Product;
   constructor(
     private router: Router,
     private route: ActivatedRoute,
@@ -30,20 +32,25 @@ export class AddProductComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
-    this.subscription = this.productService.product$.subscribe((product) => {
-      this.route.url.subscribe((url) => {
-        if (url[1].path.startsWith("e")) {
-          this.productForm.setValue({
-            name: product.name,
-            description: product.description,
-            price: product.price,
-            discount: product.discount,
-            deliveryCharge: product.deliveryCharges,
-            inventory: product.quantityInInventory,
-          });
-        }
-      });
-    },(error) => console.error(error));
+    this.subscription = this.productService.product$.subscribe(
+      (product) => {
+        this.route.url.subscribe((url) => {
+          if (url[1].path.startsWith("e")) {
+            this.editing = true;
+            this.product = product;
+            this.productForm.setValue({
+              name: product.name,
+              description: product.description,
+              price: product.price,
+              discount: product.discount,
+              deliveryCharge: product.deliveryCharges,
+              inventory: product.quantityInInventory,
+            });
+          }
+        });
+      },
+      (error) => console.error(error)
+    );
   }
 
   ngOnDestroy() {
@@ -51,10 +58,18 @@ export class AddProductComponent implements OnInit, OnDestroy {
   }
 
   onSubmit(): void {
-    this.productApiService
-      .addNewProduct({ ...this.productForm.value })
-      .subscribe(() => {
-        this.router.navigateByUrl("/admin/home");
-      });
+    if (this.editing) {
+      this.productApiService
+        .editProduct({ ...this.productForm.value }, this.product.id)
+        .subscribe(() => {
+          this.router.navigateByUrl("/admin/home");
+        });
+    } else {
+      this.productApiService
+        .addNewProduct({ ...this.productForm.value })
+        .subscribe(() => {
+          this.router.navigateByUrl("/admin/home");
+        });
+    }
   }
 }

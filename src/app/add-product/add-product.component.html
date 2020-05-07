@@ -9,32 +9,78 @@
         <form [formGroup]="productForm" (ngSubmit)="onSubmit()">
           <div class="form-group">
             <label>Name</label>
-            <input type="name" class="form-control" placeholder="" formControlName="name"/>
+            <input
+              type="name"
+              class="form-control"
+              placeholder=""
+              formControlName="name"
+            />
           </div>
           <!-- form-group end.// -->
           <div class="form-group">
             <label>Description</label>
-            <input type="description" class="form-control" placeholder="" formControlName="description"/>
+            <input
+              type="description"
+              class="form-control"
+              placeholder=""
+              formControlName="description"
+            />
           </div>
           <div class="form-group">
             <label>Price</label>
-            <input type="price" class="form-control" placeholder="" formControlName="price"/>
+            <input
+              type="price"
+              class="form-control"
+              placeholder=""
+              formControlName="price"
+            />
           </div>
           <div class="form-group">
             <label>Discount</label>
-            <input type="discount" class="form-control" placeholder="" formControlName="discount"/>
+            <input
+              type="discount"
+              class="form-control"
+              placeholder=""
+              formControlName="discount"
+            />
           </div>
           <div class="form-group">
             <label>Delivery Charge</label>
-            <input type="delivery" class="form-control" placeholder="" formControlName="deliveryCharge"/>
+            <input
+              type="delivery"
+              class="form-control"
+              placeholder=""
+              formControlName="deliveryCharge"
+            />
           </div>
           <div class="form-group">
             <label>Inventory</label>
-            <input type="inventory" class="form-control" placeholder="" formControlName="inventory"/>
+            <input
+              type="inventory"
+              class="form-control"
+              placeholder=""
+              formControlName="inventory"
+            />
           </div>
           <!-- form-group end.// -->
           <div class="form-group">
-            <button type="submit" [disabled]="!productForm.valid" class="btn btn-dark btn-block">Add</button>
+            <button
+              *ngIf="!editing; else edit"
+              type="submit"
+              [disabled]="!productForm.valid"
+              class="btn btn-dark btn-block"
+            >
+              Add Product
+            </button>
+            <ng-template #edit>
+              <button
+                type="submit"
+                [disabled]="!productForm.valid"
+                class="btn btn-dark btn-block"
+              >
+                Edit Product
+              </button></ng-template
+            >
           </div>
           <!-- form-group// -->
         </form>

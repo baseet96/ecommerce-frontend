@@ -1,9 +1,13 @@
 import { Injectable } from "@angular/core";
 import { BehaviorSubject, Observable, throwError } from "rxjs";
-import { HttpClient, HttpErrorResponse, HttpHeaders } from "@angular/common/http";
+import {
+  HttpClient,
+  HttpErrorResponse,
+  HttpHeaders,
+} from "@angular/common/http";
 import { NewProduct, Product } from "../product.model";
-import { apiAddr } from '../../config';
-import { AppService } from '../../app.service';
+import { apiAddr } from "../../config";
+import { AppService } from "../../app.service";
 
 @Injectable({
   providedIn: "root",
@@ -19,12 +23,18 @@ export class ProductApiService {
   constructor(private app: AppService, private http: HttpClient) {}
 
   getAllProducts(): Observable<any> {
-    return this.http.get(this.API_URL + 'all');
-      
+    return this.http.get(this.API_URL + "all");
   }
 
   addNewProduct(newProduct: NewProduct): Observable<any> {
-    return this.http.post<Product>(this.API_URL + "add-product", newProduct);
+    return this.http.post<Product>(
+      this.API_URL + "http://localhost:8080/products/add-product",
+      newProduct
+    );
+  }
+
+  editProduct(product: NewProduct, id: any): Observable<any> {
+    return this.http.put("http://localhost:8080/products/put", product, { params: { id } });
   }
 
   getCart(id: any): Observable<any> {
